@@ -1,11 +1,20 @@
-# Use a base image, for example, a lightweight Linux distribution with Nginx
-FROM nginx:alpine
+# Use an official lightweight Node.js image
+FROM node:14-alpine
 
-# Set the working directory inside the container
-WORKDIR /usr/share/nginx/html
+# Set the working directory
+WORKDIR /usr/src/app
 
-# Copy website files to the default Nginx web root directory
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the website files to the working directory
 COPY . .
 
-# Expose port 80 for the web server
-EXPOSE 80
+# Expose the port the app runs on
+EXPOSE 8080
+
+# Command to run the application
+CMD ["npm", "start"]
